@@ -1,0 +1,121 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Restoran </title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="{% static 'img/favicon.ico' %}" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&family=Pacifico&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="{% static 'lib/animate/animate.min.css' %}" rel="stylesheet">
+
+    <link href="{% static 'lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css' %}" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <!-- Removed line for style.css -->
+
+   <style>
+    .navbar-nav a.custom-yellow-text {
+        color: #ffc107 !important;
+    }
+</style>
+
+</head>
+
+<body>
+    <div class="container-xxl bg-white p-0">
+        <!-- Spinner Start -->
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+        <!-- Navbar & Hero Start -->
+        <div class="container-xxl position-relative p-0">
+            <div class="container-xxl position-relative p-0">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
+                <a href="{% url 'TableApp:shop_home' %}"" class="navbar-brand p-0">
+                    <h1 class="text-success m-0"><i class="fa fa-utensils me-3"></i>Restoran</h1>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span class="fa fa-bars"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <div class="navbar-nav ms-auto py-0 pe-4">
+                        <a href="{% url 'TableApp:table' %}" class="nav-item nav-link active custom-yellow-text text-uppercase">Pic Table</a>
+                        <a href="{% url 'TableApp:home_delivery' %}" class="nav-item nav-link active custom-yellow-text text-uppercase">Home Delivery</a>
+
+                        <a href="{% url 'TableApp:category_list' %}" class="nav-item nav-link active custom-yellow-text text-uppercase">Category List</a>
+                        <a href="{% url 'TableApp:add_category' %}" class="nav-item nav-link active custom-yellow-text text-uppercase">Add Category</a>
+                        <a href="{% url 'TableApp:add_item' %}" class="nav-item nav-link active custom-yellow-text text-uppercase">add_item</a>
+                        <!-- New link to view all items -->
+                        <a href="{% url 'TableApp:all_items' %}" class="nav-item nav-link active custom-yellow-text text-uppercase">View All Items</a>
+
+                        {% for category in categories %}
+                            <a href="{% url 'TableApp:edit_category' category_id=category.id %}" class="nav-item nav-link active custom-yellow-text text-uppercase">edit_category - {{ category.name }}</a>
+                        {% endfor %}
+
+                        <!-- Example loop for delete_category links -->
+                        {% for category in categories %}
+                            <a href="{% url 'TableApp:delete_category' category_id=category.id %}" class="nav-item nav-link active custom-yellow-text text-uppercase">delete_category - {{ category.name }}</a>
+                        {% endfor %}
+
+                        <a href="{% url 'TableApp:signout' %}" class="nav-item nav-link active custom-yellow-text text-uppercase">LogOut</a>
+                    </div>
+                </div>
+            </nav>
+
+
+            <div class="container-xxl py-5 bg-dark hero-header mb-5">
+                <div class="container text-center my-5 pt-5 pb-4">
+                    <!-- Display Cards in a 2x5 Grid -->
+                    <div class="row">
+                        {% for item in items %}
+                            <div class="col-md-2 mb-4">
+                                <div class="card" style="width: 120px;">
+                                    <img src="{% static 'img/take.jpg' %}" class="card-img-top" alt="Card Image" style="width: 100%;">
+                                    <div class="card-body">
+                                        <h5 class="card-title" style="font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"> {{ item }}</h5>
+                                        <p class="card-text" style="font-size: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                            {% if item.booked %}
+                                                Booked
+                                            {% else %}
+                                                {{ item.description }}
+                                            {% endif %}
+                                        </p>
+                                        <a href="{% url 'TableApp:all_items' %}" class="btn btn-success" style="font-size: 10px;">Book</a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Navbar & Hero End -->
+    </div>
+</body>
+
+</html>
